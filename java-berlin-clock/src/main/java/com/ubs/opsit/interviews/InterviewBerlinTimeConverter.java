@@ -25,23 +25,21 @@ public class InterviewBerlinTimeConverter implements TimeConverter {
 
 	public String getFirstRowHours(Integer hours) {
 		// TODO Auto-generated method stub
-		String retVal = null ;
+		StringBuilder retVal = new StringBuilder();
 		int statusFirstRow = getFirstRowStatus(hours);
-		 retVal = getBerlinClockLightsForHours(4, statusFirstRow) ;
-		return retVal ;
+		 return retVal.append(getBerlinClockRedLightsForHours(4, statusFirstRow)).append(getBerlinClockNoLightsForHours(4, statusFirstRow)).toString() ;
 	}
 
 	public String getSecondRowHours(Integer hours) {
 		// TODO Auto-generated method stub
-		String retVal = null ;
+		StringBuilder retVal = new StringBuilder();
 		int statusSecondRow = getSecondRowHoursStatus(hours);
-		retVal = getBerlinClockLightsForHours(4, statusSecondRow) ;
-		return retVal ;
+		return retVal.append(getBerlinClockRedLightsForHours(4, statusSecondRow)).append(getBerlinClockNoLightsForHours(4, statusSecondRow)).toString() ;
 	}
 	
 	public int getSecondRowHoursStatus(Integer hours) {
 		// TODO Auto-generated method stub
-		return (hours % 5);
+		return Math.floorMod(hours, 5);
 	}
 
 	
@@ -49,65 +47,76 @@ public class InterviewBerlinTimeConverter implements TimeConverter {
 	public Integer getFirstRowStatus(Integer hours) {
 		// TODO Auto-generated method stub
 		
-		Integer hoursLights = hours - (hours % 5) ;
-		return hoursLights / 5 ;
+		return Math.floorDiv(hours, 5) ;
 	        
 	}
 	
-	public String getBerlinClockLightsForHours(int numLight, int status) {
-		String flag = "R" ;
-
-        String retVal = "";
+	public String getBerlinClockRedLightsForHours(int numLight, int status) {
+        StringBuilder retVal = new StringBuilder();
         for (int x = 0; x < status; x++) {
-        	retVal += flag;
+        	retVal.append("R");
         }
-        int remainder = numLight - status ;
-        for (int y = 0; y < remainder; y++) {
-        	retVal += "O";
-        }
-        return retVal;
-    
-	
+        
+        return retVal.toString();
 	}
 	
-	
+	public String getBerlinClockNoLightsForHours(int numLight, int status) {
+		StringBuilder retVal = new StringBuilder();
+		int remiander = numLight - status ;
+		for (int y = 0; y < remiander; y++) {
+			retVal.append("O");
+        }
+		return retVal.toString();
+	}
+
 	
 	public String getSecondRowMinutes(int min) {
-		String retVal = null ;
-		int minutes = min % 5 ;
-		retVal = getBerlinClockLightsForMins(4, minutes);
-		return  retVal ;
+		StringBuilder retVal = new StringBuilder() ;
+		int minutes = Math.floorMod(min, 5);
+		return retVal.append(getBerlinClockYellowLightsForMins(4, minutes)).append(getBerlinClockNoLightsForMins(4, minutes)).toString();
         
     }
 	
-	public String getBerlinClockLightsForMins(int numLight, int status) {
-		String flag = "Y" ;
+	public String getBerlinClockYellowLightsForMins(int numLight, int status) {
+		
 
-        String retVal = "";
+        StringBuilder retVal = new StringBuilder();
         for (int x = 0; x < status; x++) {
-        	retVal += flag;
+        	retVal.append("Y");
+        } 
+        return retVal.toString();
+	}
+	
+	public String getBerlinClockNoLightsForMins(int numLight, int status) {
+		
+
+        StringBuilder retVal = new StringBuilder();
+        int remiander = numLight - status;
+        for (int y = 0; y < remiander; y++) {
+        	retVal.append("O");
         }
-        int remainder = numLight - status ;
-        for (int y = 0; y < remainder; y++) {
-        	retVal += "O";
-        }
-        return retVal;
+        return retVal.toString();
 	}
 	
 	 public String getFirstRowMinutes(int mins) {
-		 String retVal = null ;
+		 StringBuilder retVal = new StringBuilder() ;
 		 int minutes = getFirstRowStatus(mins) ;
-		  retVal = getBerlinClockLightsForMins(11, minutes);
-	        return retVal ;
+		  return retVal.append(getBerlinClockYellowLightsForMins(11, minutes)).append(getBerlinClockNoLightsForMins(11, minutes)).toString();
 	    }
 
 	 public String getBerlinClockLightsForSeconds(int sec) {
 		 String retVal = "O" ;
-		 int seconds = sec % 2 ;
-		 if(seconds == 0) {
-			 retVal = "Y" ;
+		 int k = Math.floorMod(sec, 2);
+		 switch (k) {
+			 case 0 : 
+				 retVal = "Y" ;
+				 break ;
+			 default :
+				 retVal = "O" ;
 		 }
-	        return retVal ;
+		 
+		 return retVal ;
+	        
 	    }
 	
 	
